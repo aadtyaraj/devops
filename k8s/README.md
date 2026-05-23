@@ -1,5 +1,95 @@
 # Kubernetes Gateway API & URL Rewrite
 
+## create openssl crt/key pair
+
+```bash
+openssl req -x509 -nodes -days 365 \
+  -newkey rsa:2048 \
+  -keyout tls.key \
+  -out tls.crt \
+  -subj "/CN=example.com/O=example.com"
+```
+
+## custom html for nginx image
+
+```yaml
+      command:
+        - /bin/sh
+        - -c
+        - |
+          envsubst < /templates/index.html.template > /usr/share/nginx/html/index.html
+          nginx -g 'daemon off;'
+```
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-downward-api
+  labels:
+    app: nginx-demo
+spec:
+  volumes:
+    - name: html
+      emptyDir: {}
+
+  initContainers:
+    - name: generate-html
+      image: busybox
+      command:
+        - sh
+        - -c
+        - |
+          cat <<EOF > /html/index.html
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Pod Info</title>
+          </head>
+          <body>
+            <h1>Kubernetes Pod Info</h1>
+            <p><strong>Pod Name:</strong> $POD_NAME</p>
+            <p><strong>Namespace:</strong> $POD_NAMESPACE</p>
+            <p><strong>Pod IP:</strong> $POD_IP</p>
+            <p><strong>Node Name:</strong> $NODE_NAME</p>
+          </body>
+          </html>
+          EOF
+      env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+
+      volumeMounts:
+        - name: html
+          mountPath: /html
+
+  containers:
+    - name: nginx
+      image: nginx:latest
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html
+```
+
 ## What path does a pod or service expect?
 
 The app itself determines this — not Kubernetes. You need to look at how it is configured to serve content.
