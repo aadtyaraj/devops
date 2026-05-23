@@ -1,0 +1,13 @@
+:2015 {
+	encode
+	templates
+	file_server browse
+}
+
+:2020 {
+	respond "hello trex 🦖🦖🦖"
+}
+
+http://k8s.example.com {
+	reverse_proxy 127.0.0.1:8080
+}
