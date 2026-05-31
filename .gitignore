@@ -1,0 +1,103 @@
+# =========================
+# OS / Editor
+# =========================
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+
+# =========================
+# Logs
+# =========================
+*.log
+logs/
+
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.secret
+
+# =========================
+# Terraform
+# =========================
+.terraform/
+.terraform.lock.hcl
+
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform plans
+*.tfplan
+plan.out
+
+# =========================
+# Helm
+# =========================
+*.tgz
+charts/*/charts/
+charts/*/tmpcharts/
+
+# =========================
+# Kubeconfig
+# =========================
+kubeconfig
+kubeconfig.yaml
+*.kubeconfig
+
+# =========================
+# Kustomize Generated Files
+# =========================
+rendered.yaml
+manifests-generated/
+build/
+
+# =========================
+# Test / Coverage
+# =========================
+coverage/
+.coverage
+pytest_cache/
+test-results/
+
+# =========================
+# Python
+# =========================
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# =========================
+# Node.js (if tooling used)
+# =========================
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# =========================
+# Ansible
+# =========================
+*.retry
+
+# =========================
+# Temporary Files
+# =========================
+tmp/
+temp/
+*.tmp
+*.bak
