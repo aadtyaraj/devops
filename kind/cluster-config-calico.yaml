@@ -27,3 +27,6 @@ nodes:
         nodeRegistration:
           kubeletExtraArgs:
             register-with-taints: "storage=required:NoSchedule"
+networking:
+  disableDefaultCNI: true
+  podSubnet: 192.168.0.0/16
