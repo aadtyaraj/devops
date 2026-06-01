@@ -5,6 +5,7 @@ CLUSTER_NAME="${1:-}"
 
 # Delete existing cluster (silently, in case none exists)
 if [[ -n "$CLUSTER_NAME" ]]; then
+  # doesn't exist error sent to hell
   kind delete cluster --name "$CLUSTER_NAME" 2>/dev/null || true
 else
   kind delete cluster 2>/dev/null || true
