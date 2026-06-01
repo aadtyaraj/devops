@@ -23,7 +23,7 @@ nodes:
       tier: backend
   - role: worker
     labels:
-      tier: storage
+      node-restriction.kubernetes.io/tier: storage
     extraMounts:
       - hostPath: /tmp/kind-files
         containerPath: /files
